@@ -23,3 +23,9 @@ Watch for lib and test changes, and re-run tests:
 ```
 ghcid --target=aoc2023 --run=":! ghcid --target=spec --run"
 ```
+
+Run a solution:
+
+```
+cabal run aoc2023 Day01 Part2
+```
