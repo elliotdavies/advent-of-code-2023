@@ -22,7 +22,11 @@ main = do
       let part :: Part = read p
 
       case (day, part) of
-        (Day01, Part1) -> print $ AOC2023.Day01.part1 AOC2023.Day01.input1
-        (Day01, Part2) -> print $ AOC2023.Day01.part2 AOC2023.Day01.input2
+        (Day01, Part1) -> do
+          input <- readFile "inputs/day01/real.txt"
+          print $ AOC2023.Day01.part1 input
+        (Day01, Part2) -> do
+          input <- readFile "inputs/day01/real.txt"
+          print $ AOC2023.Day01.part2 input
     _ ->
       putStrLn "Missing arguments"

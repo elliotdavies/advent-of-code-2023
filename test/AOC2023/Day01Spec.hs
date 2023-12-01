@@ -6,8 +6,18 @@ import Test.Hspec
 spec :: Spec
 spec =
   describe "Day01" $ do
-    it "Part 1" $ do
-      part1 input1 `shouldBe` ""
+    it "Part 1 test" $ do
+      input <- readFile "inputs/day01/part1_test.txt"
+      part1 input `shouldBe` 142
 
-    it "Part 2" $ do
-      part2 input2 `shouldBe` ""
+    it "Part 1 real" $ do
+      input <- readFile "inputs/day01/real.txt"
+      part1 input `shouldBe` 53080
+
+    it "Part 2 test" $ do
+      input <- readFile "inputs/day01/part2_test.txt"
+      part2 input `shouldBe` 281
+
+    it "Part 2 real" $ do
+      input <- readFile "inputs/day01/real.txt"
+      part2 input `shouldBe` 53268
