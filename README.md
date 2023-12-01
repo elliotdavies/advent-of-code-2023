@@ -24,7 +24,15 @@ Watch for lib and test changes, and re-run tests:
 ghcid --target=aoc2023 --run=":! ghcid --target=spec --run"
 ```
 
-Run a solution:
+Format code:
+
+```
+ormolu -i ./**/*.hs
+```
+
+## Run a solution
+
+e.g.
 
 ```
 cabal run aoc2023 Day01 Part2

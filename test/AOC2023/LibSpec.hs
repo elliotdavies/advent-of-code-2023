@@ -6,5 +6,5 @@ import Test.Hspec
 
 spec :: Spec
 spec = describe "Lib" $ do
-      it "has no tests" $ do
-            pending
+  it "has no tests" $ do
+    pending

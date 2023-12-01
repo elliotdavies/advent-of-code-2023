@@ -1,13 +1,15 @@
-module AOC2023.Day01 (
-  Input,
-  Output,
-  input1,
-  part1,
-  input2,
-  part2,
-) where
+module AOC2023.Day01
+  ( Input,
+    Output,
+    input1,
+    part1,
+    input2,
+    part2,
+  )
+where
 
 type Input = String
+
 type Output = String
 
 input1 :: Input
