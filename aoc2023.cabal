@@ -31,6 +31,8 @@ common shared-properties
 
 library
     import: shared-properties
+    build-depends:
+        parsec >= 3.1
     exposed-modules:
         AOC2023.Lib
         AOC2023.Day01
@@ -54,8 +56,9 @@ test-suite spec
     hs-source-dirs: test
     main-is: Spec.hs
     build-depends:
-        hspec >= 2.7
+        aoc2023
+        , hspec >= 2.7
         , hspec-discover >= 2.7
-        , aoc2023
+        , parsec >= 3.1
     build-tool-depends:
         hspec-discover:hspec-discover
