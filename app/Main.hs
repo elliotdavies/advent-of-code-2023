@@ -1,6 +1,7 @@
 module Main where
 
 import qualified AOC2023.Day01
+import qualified AOC2023.Day02
 import System.Environment
 
 data Part
@@ -10,6 +11,7 @@ data Part
 
 data Day
   = Day01
+  | Day02
   deriving (Show, Read)
 
 main :: IO ()
@@ -28,5 +30,11 @@ main = do
         (Day01, Part2) -> do
           input <- readFile "inputs/day01/real.txt"
           print $ AOC2023.Day01.part2 input
+        (Day02, Part1) -> do
+          input <- readFile "inputs/day02/real.txt"
+          print $ AOC2023.Day02.part1 input
+        (Day02, Part2) -> do
+          input <- readFile "inputs/day02/real.txt"
+          print $ AOC2023.Day02.part2 input
     _ ->
       putStrLn "Missing arguments"
