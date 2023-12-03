@@ -73,11 +73,9 @@ part1 input =
         Right gs -> sum $ map gameId $ filterGames gs
         Left err -> length $ traceShow err (show err)
 
-
 part2 :: Input -> Output
 part2 input =
   let results = sequence $ map (parse game "") (filter (not . null) $ lines input)
    in case results of
         Right gs -> sum $ map (\g -> red g * blue g * green g) gs
         Left err -> length $ traceShow err (show err)
-
