@@ -3,9 +3,7 @@
 {-# OPTIONS_GHC -Wno-unused-do-bind #-}
 
 module AOC2023.Day02
-  ( Input,
-    Output,
-    part1,
+  ( part1,
     part2,
     cubes,
     handful,
@@ -15,16 +13,11 @@ module AOC2023.Day02
   )
 where
 
-import AOC2023.Lib (digits)
+import AOC2023.Lib (Solution, digits, fromParser)
 import Control.Applicative ((<|>))
-import Debug.Trace (traceShow)
 import Text.Parsec (parse, sepBy)
 import Text.Parsec.Char (space, string)
 import Text.Parsec.String (Parser)
-
-type Input = String
-
-type Output = Int
 
 data Game = Game {gameId :: Int, red :: Int, green :: Int, blue :: Int}
   deriving (Eq, Show)
@@ -65,18 +58,17 @@ cubes = do
   (,num) . readColor <$> (string "red" <|> string "green" <|> string "blue")
 
 filterGames :: [Game] -> [Game]
-filterGames = filter (\(Game {red, green, blue}) -> red <= 12 && green <= 13 && blue <= 14)
+filterGames =
+  filter (\(Game {red, green, blue}) -> red <= 12 && green <= 13 && blue <= 14)
 
-part1 :: Input -> Output
+part1 :: Solution
 part1 input =
-  let results = sequence $ map (parse game "") (filter (not . null) $ lines input)
-   in case results of
-        Right gs -> sum $ map gameId $ filterGames gs
-        Left err -> length $ traceShow err (show err)
+  fromParser
+    (sum . map gameId . filterGames)
+    (mapM (parse game "") (filter (not . null) $ lines input))
 
-part2 :: Input -> Output
+part2 :: Solution
 part2 input =
-  let results = sequence $ map (parse game "") (filter (not . null) $ lines input)
-   in case results of
-        Right gs -> sum $ map (\g -> red g * blue g * green g) gs
-        Left err -> length $ traceShow err (show err)
+  fromParser
+    (sum . map (\g -> red g * blue g * green g))
+    (mapM (parse game "") (filter (not . null) $ lines input))

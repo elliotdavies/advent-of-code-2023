@@ -1,24 +1,17 @@
 {-# OPTIONS_GHC -Wno-unused-do-bind #-}
 
 module AOC2023.Day04
-  ( Input,
-    Output,
-    part1,
+  ( part1,
     part2,
   )
 where
 
-import AOC2023.Lib (digits)
+import AOC2023.Lib (Solution, digits, fromParser)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
-import Debug.Trace (traceShow, traceShowId)
 import Text.Parsec (many, parse)
 import Text.Parsec.Char (spaces, string)
 import Text.Parsec.String (Parser)
-
-type Input = String
-
-type Output = Int
 
 data Card = Card Int (S.Set Int) (S.Set Int)
   deriving (Show)
@@ -48,12 +41,11 @@ numMatches (Card _ winningNums allNums) = S.size (S.intersection allNums winning
 points :: Card -> Int
 points c = let n = numMatches c in if n == 0 then 0 else 2 ^ (n - 1)
 
-part1 :: Input -> Output
+part1 :: Solution
 part1 input =
-  let results = sequence $ parse card "" <$> lines input
-   in case results of
-        Right cs -> sum $ map points cs
-        Left err -> length $ traceShowId $ show err
+  fromParser
+    (sum . map points)
+    $ mapM (parse card "") (lines input)
 
 cardMapping :: [Card] -> M.Map Int Int
 cardMapping = foldr (\(Card cardId _ _) -> M.insert cardId 1) M.empty
@@ -67,9 +59,8 @@ stepCards = foldl go
         idsToInc = [(cardId + 1) .. (cardId + numMatches c)]
         incBy = acc M.! cardId
 
-part2 :: Input -> Output
+part2 :: Solution
 part2 input =
-  let results = sequence $ parse card "" <$> lines input
-   in case results of
-        Right cs -> sum $ M.elems $ stepCards (cardMapping cs) cs
-        Left err -> length $ traceShowId $ show err
+  fromParser
+    (\cs -> sum . M.elems $ stepCards (cardMapping cs) cs)
+    $ mapM (parse card "") (lines input)

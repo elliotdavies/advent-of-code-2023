@@ -48,6 +48,7 @@ executable aoc2023
     main-is: Main.hs
     build-depends:
         aoc2023
+        , containers >= 0.6
     hs-source-dirs: app
 
 test-suite spec
@@ -66,5 +67,6 @@ test-suite spec
         , hspec >= 2.7
         , hspec-discover >= 2.7
         , parsec >= 3.1
+        , vector >= 0.13
     build-tool-depends:
         hspec-discover:hspec-discover

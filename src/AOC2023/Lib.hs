@@ -3,30 +3,50 @@
 
 module AOC2023.Lib where
 
+import Data.Bifunctor (Bifunctor (bimap))
 import qualified Data.Vector as V
-import Text.Parsec (digit, many1)
+import Text.Parsec (ParseError, digit, many1)
 import Text.Parsec.String (Parser)
 
+{- Puzzle setup -}
+
+type Result = Either String Int
+
+type Solution = String -> Result
+
+{- General helpers -}
+
+-- Convert e.g. [1,2,3] to 123
 digitsToInt :: [Int] -> Int
 digitsToInt = read @Int . concatMap show
+
+{- Parsers -}
 
 digits :: Parser Int
 digits = read <$> many1 digit
 
+fromParser :: forall a. (a -> Int) -> Either ParseError a -> Result
+fromParser = bimap show
+
+{- Coords and vectors -}
+
 type Coords = (Int, Int)
 
+-- Index safely into a 2D vector
 (!?!?) :: V.Vector (V.Vector a) -> Coords -> Maybe a
 (!?!?) vec (x, y) = vec V.!? y >>= \vec' -> vec' V.!? x
 
-surroundingCoords :: Int -> Int -> [Coords]
-surroundingCoords col row =
-  [ (col - 1, row - 1),
-    (col, row -1),
-    (col + 1, row -1),
-    (col - 1, row),
-    -- (col, row),
-    (col + 1, row),
-    (col - 1, row + 1),
-    (col, row + 1),
-    (col + 1, row + 1)
+-- Generate coordinates for the cells surrounding the current one (but not
+-- including the current one)
+surroundingCoords :: Coords -> [Coords]
+surroundingCoords (x, y) =
+  [ (x - 1, y - 1),
+    (x, y -1),
+    (x + 1, y -1),
+    (x - 1, y),
+    -- (x, y),
+    (x + 1, y),
+    (x - 1, y + 1),
+    (x, y + 1),
+    (x + 1, y + 1)
   ]

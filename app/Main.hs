@@ -4,19 +4,38 @@ import qualified AOC2023.Day01
 import qualified AOC2023.Day02
 import qualified AOC2023.Day03
 import qualified AOC2023.Day04
+import AOC2023.Lib (Solution)
+import Data.Char (toLower)
+import qualified Data.Map.Strict as M
 import System.Environment
 
 data Part
   = Part1
   | Part2
-  deriving (Show, Read)
+  deriving (Show, Read, Ord, Eq)
 
 data Day
   = Day01
   | Day02
   | Day03
   | Day04
-  deriving (Show, Read)
+  deriving (Show, Read, Ord, Eq)
+
+dayToFolder :: Day -> String
+dayToFolder day = let s = show day in toLower (head s) : tail s
+
+mapping :: M.Map (Day, Part) Solution
+mapping =
+  M.fromList
+    [ ((Day01, Part1), AOC2023.Day01.part1),
+      ((Day01, Part2), AOC2023.Day01.part2),
+      ((Day02, Part1), AOC2023.Day02.part1),
+      ((Day02, Part2), AOC2023.Day02.part2),
+      ((Day03, Part1), AOC2023.Day03.part1),
+      ((Day03, Part2), AOC2023.Day03.part2),
+      ((Day04, Part1), AOC2023.Day04.part1),
+      ((Day04, Part2), AOC2023.Day04.part2)
+    ]
 
 main :: IO ()
 main = do
@@ -27,30 +46,10 @@ main = do
       let day :: Day = read d
       let part :: Part = read p
 
-      case (day, part) of
-        (Day01, Part1) -> do
-          input <- readFile "inputs/day01/real.txt"
-          print $ AOC2023.Day01.part1 input
-        (Day01, Part2) -> do
-          input <- readFile "inputs/day01/real.txt"
-          print $ AOC2023.Day01.part2 input
-        (Day02, Part1) -> do
-          input <- readFile "inputs/day02/real.txt"
-          print $ AOC2023.Day02.part1 input
-        (Day02, Part2) -> do
-          input <- readFile "inputs/day02/real.txt"
-          print $ AOC2023.Day02.part2 input
-        (Day03, Part1) -> do
-          input <- readFile "inputs/day03/real.txt"
-          print $ AOC2023.Day03.part1 input
-        (Day03, Part2) -> do
-          input <- readFile "inputs/day03/real.txt"
-          print $ AOC2023.Day03.part2 input
-        (Day04, Part1) -> do
-          input <- readFile "inputs/day04/real.txt"
-          print $ AOC2023.Day04.part1 input
-        (Day04, Part2) -> do
-          input <- readFile "inputs/day04/real.txt"
-          print $ AOC2023.Day04.part2 input
+      input <- readFile $ "inputs/" ++ dayToFolder day ++ "/real.txt"
+
+      case M.lookup (day, part) mapping of
+        Just f -> print $ f input
+        Nothing -> print "Invalid day or part"
     _ ->
-      putStrLn "Missing arguments"
+      print "Missing arguments"

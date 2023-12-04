@@ -1,12 +1,10 @@
 module AOC2023.Day01
-  ( Input,
-    Output,
-    part1,
+  ( part1,
     part2,
   )
 where
 
-import AOC2023.Lib (digitsToInt)
+import AOC2023.Lib (Solution, digitsToInt)
 import Control.Applicative ((<|>))
 import Data.List (isPrefixOf)
 import Data.Maybe (catMaybes, isJust, mapMaybe)
@@ -49,12 +47,8 @@ parseStr s = foldr go Nothing pairs
 calibrationValue :: [Int] -> Int
 calibrationValue nums = digitsToInt [head nums, last nums]
 
-type Input = String
+part1 :: Solution
+part1 = Right . sum . map (calibrationValue . mapMaybe parseDigit) . lines
 
-type Output = Int
-
-part1 :: Input -> Output
-part1 = sum . map (calibrationValue . mapMaybe parseDigit) . lines
-
-part2 :: Input -> Output
-part2 = sum . map (calibrationValue . findNums) . lines
+part2 :: Solution
+part2 = Right . sum . map (calibrationValue . findNums) . lines

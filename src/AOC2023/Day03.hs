@@ -1,23 +1,17 @@
 {-# LANGUAGE LambdaCase #-}
 
 module AOC2023.Day03
-  ( Input,
-    Output,
-    part1,
+  ( part1,
     part2,
   )
 where
 
-import AOC2023.Lib (Coords, digitsToInt, surroundingCoords, (!?!?))
+import AOC2023.Lib (Coords, Solution, digitsToInt, surroundingCoords, (!?!?))
 import Data.Char (digitToInt, isDigit)
 import qualified Data.Map.Strict as M
 import Data.Maybe (mapMaybe)
 import qualified Data.Set as S
 import qualified Data.Vector as V
-
-type Input = String
-
-type Output = Int
 
 data EnginePart = Digit Int | Symbol Char | Empty
   deriving (Show, Eq)
@@ -33,7 +27,7 @@ data SymbolLoc = SymbolLoc Coords Char
 
 type Schematic = V.Vector (V.Vector EnginePart)
 
-parseInput :: Input -> Schematic
+parseInput :: String -> Schematic
 parseInput = V.fromList . map parseLine . lines
   where
     parseLine :: String -> V.Vector EnginePart
@@ -69,7 +63,7 @@ findPartNumbers schematic = concat $ V.imap walkLine schematic
 
     getTouchingSymbols :: Coords -> S.Set SymbolLoc
     getTouchingSymbols (col, row) =
-      foldr pickSymbols S.empty $ mapMaybe lookupWithCoords (surroundingCoords col row)
+      foldr pickSymbols S.empty $ mapMaybe lookupWithCoords (surroundingCoords (col, row))
       where
         lookupWithCoords :: Coords -> Maybe (Coords, EnginePart)
         lookupWithCoords coords = (coords,) <$> (schematic !?!? coords)
@@ -78,8 +72,8 @@ findPartNumbers schematic = concat $ V.imap walkLine schematic
         pickSymbols (coords, Symbol c) acc = S.insert (SymbolLoc coords c) acc
         pickSymbols _ acc = acc
 
-part1 :: Input -> Output
-part1 = sum . map fst . findPartNumbers . parseInput
+part1 :: Solution
+part1 = Right . sum . map fst . findPartNumbers . parseInput
 
 -- 'Invert' the list of mappings
 mapSymbolLocsToPartNumbers :: [(Int, S.Set SymbolLoc)] -> M.Map SymbolLoc [Int]
@@ -89,8 +83,8 @@ mapSymbolLocsToPartNumbers = foldr go M.empty
     go (partNumber, symbols) acc =
       S.foldr (\sym acc' -> M.insertWith (++) sym [partNumber] acc') acc symbols
 
-part2 :: Input -> Output
+part2 :: Solution
 part2 input =
   let mapped = mapSymbolLocsToPartNumbers $ findPartNumbers $ parseInput input
       gears = M.filterWithKey (\(SymbolLoc _ c) vals -> c == '*' && length vals == 2) mapped
-   in M.foldr ((+) . product) 0 gears
+   in Right $ M.foldr ((+) . product) 0 gears

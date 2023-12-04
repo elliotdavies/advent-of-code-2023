@@ -18,17 +18,17 @@ spec =
       parse game "" "Game 23: 1 green, 2 red; 3 blue, 14 green" `shouldBe` Right (Game 23 2 14 3)
 
     it "Part 1 test" $ do
-      input <- readFile "inputs/day02/part1_test.txt"
-      part1 input `shouldBe` 8
+      input <- readFile "inputs/day02/test.txt"
+      part1 input `shouldBe` Right 8
 
     it "Part 1 real" $ do
       input <- readFile "inputs/day02/real.txt"
-      part1 input `shouldBe` 2505
+      part1 input `shouldBe` Right 2505
 
     it "Part 2 test" $ do
-      input <- readFile "inputs/day02/part1_test.txt"
-      part2 input `shouldBe` 2286
+      input <- readFile "inputs/day02/test.txt"
+      part2 input `shouldBe` Right 2286
 
     it "Part 2 real" $ do
       input <- readFile "inputs/day02/real.txt"
-      part2 input `shouldBe` 70265
+      part2 input `shouldBe` Right 70265

@@ -7,17 +7,17 @@ spec :: Spec
 spec =
   describe "Day04" $ do
     it "Part 1 test" $ do
-      input <- readFile "inputs/day04/part1_test.txt"
-      part1 input `shouldBe` 13
+      input <- readFile "inputs/day04/test.txt"
+      part1 input `shouldBe` Right 13
 
     it "Part 1 real" $ do
       input <- readFile "inputs/day04/real.txt"
-      part1 input `shouldBe` 21821
+      part1 input `shouldBe` Right 21821
 
     it "Part 2 test" $ do
-      input <- readFile "inputs/day04/part1_test.txt"
-      part2 input `shouldBe` 30
+      input <- readFile "inputs/day04/test.txt"
+      part2 input `shouldBe` Right 30
 
     it "Part 2 real" $ do
       input <- readFile "inputs/day04/real.txt"
-      part2 input `shouldBe` 5539496
+      part2 input `shouldBe` Right 5539496
