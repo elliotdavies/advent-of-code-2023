@@ -40,9 +40,9 @@ main = do
           print $ AOC2023.Day02.part2 input
         (Day03, Part1) -> do
           input <- readFile "inputs/day03/real.txt"
-          print $ AOC2033.Day03.part1 input
+          print $ AOC2023.Day03.part1 input
         (Day03, Part2) -> do
           input <- readFile "inputs/day03/real.txt"
-          print $ AOC2033.Day03.part2 input
+          print $ AOC2023.Day03.part2 input
     _ ->
       putStrLn "Missing arguments"
