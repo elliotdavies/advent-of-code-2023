@@ -33,6 +33,7 @@ library
     import: shared-properties
     build-depends:
         parsec >= 3.1
+        , vector >= 0.13
     exposed-modules:
         AOC2023.Lib
         AOC2023.Day01

@@ -12,11 +12,11 @@ spec =
 
     it "Part 1 real" $ do
       input <- readFile "inputs/day03/real.txt"
-      pending
+      part1 input `shouldBe` 553825
 
     it "Part 2 test" $ do
-      -- input <- readFile "inputs/day03/part2_test.txt"
-      pending
+      input <- readFile "inputs/day03/part1_test.txt"
+      part2 input `shouldBe` 467835
 
     it "Part 2 real" $ do
       -- input <- readFile "inputs/day03/real.txt"

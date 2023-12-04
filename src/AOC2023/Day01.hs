@@ -1,6 +1,3 @@
-{- For Ormolu: -}
-{-# LANGUAGE TypeApplications #-}
-
 module AOC2023.Day01
   ( Input,
     Output,
@@ -9,6 +6,7 @@ module AOC2023.Day01
   )
 where
 
+import AOC2023.Lib (digitsToInt)
 import Control.Applicative ((<|>))
 import Data.List (isPrefixOf)
 import Data.Maybe (catMaybes, isJust, mapMaybe)
@@ -49,7 +47,7 @@ parseStr s = foldr go Nothing pairs
       ]
 
 calibrationValue :: [Int] -> Int
-calibrationValue nums = read @Int $ show (head nums) ++ show (last nums)
+calibrationValue nums = digitsToInt [head nums, last nums]
 
 type Input = String
 
