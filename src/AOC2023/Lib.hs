@@ -4,9 +4,14 @@
 module AOC2023.Lib where
 
 import qualified Data.Vector as V
+import Text.Parsec (digit, many1)
+import Text.Parsec.String (Parser)
 
 digitsToInt :: [Int] -> Int
 digitsToInt = read @Int . concatMap show
+
+digits :: Parser Int
+digits = read <$> many1 digit
 
 type Coords = (Int, Int)
 

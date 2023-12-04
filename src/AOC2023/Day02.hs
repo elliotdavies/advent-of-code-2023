@@ -15,10 +15,11 @@ module AOC2023.Day02
   )
 where
 
+import AOC2023.Lib (digits)
 import Control.Applicative ((<|>))
 import Debug.Trace (traceShow)
-import Text.Parsec (many1, parse, sepBy)
-import Text.Parsec.Char (digit, space, string)
+import Text.Parsec (parse, sepBy)
+import Text.Parsec.Char (space, string)
 import Text.Parsec.String (Parser)
 
 type Input = String
@@ -31,7 +32,7 @@ data Game = Game {gameId :: Int, red :: Int, green :: Int, blue :: Int}
 game :: Parser Game
 game = do
   string "Game "
-  gameId <- read <$> many1 digit
+  gameId <- digits
   string ": "
   handfuls <- handful `sepBy` string "; "
 
@@ -59,7 +60,7 @@ readColor = \case
 
 cubes :: Parser (Color, Int)
 cubes = do
-  num <- read <$> many1 digit
+  num <- digits
   space
   (,num) . readColor <$> (string "red" <|> string "green" <|> string "blue")
 
