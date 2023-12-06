@@ -6,21 +6,15 @@ module AOC2023.Day04
   )
 where
 
-import AOC2023.Lib (Solution, digits, fromParser)
+import AOC2023.Lib (Solution, digits, fromParser, spaces, spaceSeparatedDigits)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
-import Text.Parsec (many, parse)
-import Text.Parsec.Char (spaces, string)
+import Text.Parsec (parse)
+import Text.Parsec.Char (string)
 import Text.Parsec.String (Parser)
 
 data Card = Card Int (S.Set Int) (S.Set Int)
   deriving (Show)
-
-spaceSeparatedDigits :: Parser [Int]
-spaceSeparatedDigits = many $ do
-  ds <- digits
-  spaces
-  pure ds
 
 card :: Parser Card
 card = do

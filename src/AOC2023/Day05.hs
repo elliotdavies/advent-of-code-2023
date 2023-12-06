@@ -13,7 +13,7 @@ module AOC2023.Day05
   )
 where
 
-import AOC2023.Lib (Solution, digits, fromParser)
+import AOC2023.Lib (Solution, spaces, fromParser, spaceSeparatedDigits)
 import Data.Coerce (coerce)
 import Data.Foldable (find)
 import Data.Maybe (fromMaybe)
@@ -95,16 +95,10 @@ data Input = Input
   }
   deriving (Show)
 
-spaceSeparatedDigits :: Parser [Int]
-spaceSeparatedDigits = many $ do
-  ds <- digits
-  many $ char ' '
-  pure ds
-
 seedsParser :: Parser [Seed]
 seedsParser = do
   string "seeds:"
-  many $ char ' '
+  spaces
   ds <- spaceSeparatedDigits
   pure $ Seed <$> ds
 

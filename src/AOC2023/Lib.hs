@@ -5,8 +5,9 @@ module AOC2023.Lib where
 
 import Data.Bifunctor (Bifunctor (bimap))
 import qualified Data.Vector as V
-import Text.Parsec (ParseError, digit, many1)
+import Text.Parsec (ParseError, digit, many1, many)
 import Text.Parsec.String (Parser)
+import Text.Parsec.Char (char)
 
 {- Puzzle setup -}
 
@@ -24,6 +25,15 @@ digitsToInt = read @Int . concatMap show
 
 digits :: Parser Int
 digits = read <$> many1 digit
+
+spaces :: Parser String
+spaces = many $ char ' '
+
+spaceSeparatedDigits :: Parser [Int]
+spaceSeparatedDigits = many $ do
+  ds <- digits
+  spaces
+  pure ds
 
 fromParser :: forall a. (a -> Int) -> Either ParseError a -> Result
 fromParser = bimap show
