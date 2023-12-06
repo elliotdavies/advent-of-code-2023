@@ -1,12 +1,10 @@
-{-# OPTIONS_GHC -Wno-unused-do-bind #-}
-
 module AOC2023.Day04
   ( part1,
     part2,
   )
 where
 
-import AOC2023.Lib (Solution, digits, fromParser, spaces, spaceSeparatedDigits)
+import AOC2023.Lib (Solution, digits, fromParser, spaceSeparatedDigits, spaces)
 import qualified Data.Map.Strict as M
 import qualified Data.Set as S
 import Text.Parsec (parse)

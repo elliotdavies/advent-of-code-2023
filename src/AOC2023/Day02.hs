@@ -1,6 +1,4 @@
 {-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE LambdaCase #-}
-{-# OPTIONS_GHC -Wno-unused-do-bind #-}
 
 module AOC2023.Day02
   ( part1,

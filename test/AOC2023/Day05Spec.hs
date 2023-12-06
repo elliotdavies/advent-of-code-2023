@@ -8,7 +8,7 @@ spec :: Spec
 spec =
   describe "Day05" $ do
     it "parsers" $ do
-      parse seedsParser "" "seeds: 79 14 55 13" `shouldBe` Right [Seed 79, Seed 14, Seed 55, Seed 13]
+      parse seedsParser "" "seeds: 79 14 55 13" `shouldBe` Right [79, 14, 55, 13]
 
       parse rangeParser "" "1 2 33" `shouldBe` Right (Range 1 2 33)
 
@@ -26,7 +26,7 @@ spec =
       input <- readFile "inputs/day05/test.txt"
       part2 input `shouldBe` Right 46
 
-    --  Skipped because it's a little slow (~9s)
+    --  Skipped because it's a little slow
     xit "Part 2 real" $ do
       input <- readFile "inputs/day05/real.txt"
       part2 input `shouldBe` Right 9622622

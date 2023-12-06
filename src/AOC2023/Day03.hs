@@ -1,5 +1,3 @@
-{-# LANGUAGE LambdaCase #-}
-
 module AOC2023.Day03
   ( part1,
     part2,

@@ -1,5 +1,3 @@
-{-# OPTIONS_GHC -Wno-unused-do-bind #-}
-
 module AOC2023.Day06
   ( part1,
     part2,

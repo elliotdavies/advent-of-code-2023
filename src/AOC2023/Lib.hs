@@ -5,9 +5,9 @@ module AOC2023.Lib where
 
 import Data.Bifunctor (Bifunctor (bimap))
 import qualified Data.Vector as V
-import Text.Parsec (ParseError, digit, many1, many)
-import Text.Parsec.String (Parser)
+import Text.Parsec (ParseError, digit, many, many1)
 import Text.Parsec.Char (char)
+import Text.Parsec.String (Parser)
 
 {- Puzzle setup -}
 

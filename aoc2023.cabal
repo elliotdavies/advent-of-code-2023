@@ -2,39 +2,27 @@ cabal-version:      2.4
 name:               aoc2023
 version:            0.1.0.0
 
--- A short (one-line) description of the package.
--- synopsis:
-
--- A longer description of the package.
--- description:
-
--- A URL where users can report bugs.
--- bug-reports:
-
--- The license under which the package is released.
--- license:
 author:             Elliot Davies
 maintainer:         elliot.a.davies@gmail.com
 
--- A copyright notice.
--- copyright:
--- category:
 extra-source-files: CHANGELOG.md
 
 common shared-properties
     default-language: GHC2021
+    default-extensions:
+        LambdaCase
     build-depends:
         base == 4.*
         , mtl >= 2.2
+        , containers >= 0.6
+        , vector >= 0.13
+        , parsec >= 3.1
     ghc-options:
         -Wall
+        -Wno-unused-do-bind
 
 library
     import: shared-properties
-    build-depends:
-        parsec >= 3.1
-        , vector >= 0.13
-        , containers >= 0.6
     exposed-modules:
         AOC2023.Lib
         AOC2023.Day01
@@ -50,7 +38,6 @@ executable aoc2023
     main-is: Main.hs
     build-depends:
         aoc2023
-        , containers >= 0.6
     hs-source-dirs: app
 
 test-suite spec
@@ -70,7 +57,5 @@ test-suite spec
         aoc2023
         , hspec >= 2.7
         , hspec-discover >= 2.7
-        , parsec >= 3.1
-        , vector >= 0.13
     build-tool-depends:
         hspec-discover:hspec-discover
