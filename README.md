@@ -30,6 +30,16 @@ Format code:
 ormolu -i ./**/*.hs
 ```
 
+## Add a new day
+
+Scaffold files:
+
+```
+DAY=Day07 ./scaffold.sh
+```
+
+Then extend `aoc2023.cabal` and `app/Main.hs` with the new day's module.
+
 ## Run a solution
 
 e.g.
