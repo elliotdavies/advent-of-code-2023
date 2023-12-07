@@ -44,7 +44,7 @@ mapping =
       ((Day05, Part1), AOC2023.Day05.part1),
       ((Day05, Part2), AOC2023.Day05.part2),
       ((Day06, Part1), AOC2023.Day06.part1),
-      ((Day06, Part2), AOC2023.Day06.part2)
+      ((Day06, Part2), AOC2023.Day06.part2),
       ((Day07, Part1), AOC2023.Day07.part1),
       ((Day07, Part2), AOC2023.Day07.part2)
     ]

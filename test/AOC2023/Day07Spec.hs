@@ -8,10 +8,11 @@ spec =
   describe "Day07" $ do
     it "Part 1 test" $ do
       input <- readFile "inputs/day07/test.txt"
-      part1 input `shouldBe` Right 0
+      part1 input `shouldBe` Right 6440
 
     it "Part 1 real" $ do
-      pending
+      input <- readFile "inputs/day07/real.txt"
+      part1 input `shouldBe` Right 248812215
 
     it "Part 2 test" $ do
       pending

@@ -24,6 +24,12 @@ Watch for lib and test changes, and re-run tests:
 ghcid --target=aoc2023 --run=":! ghcid --target=spec --run" --warnings $@
 ```
 
+Repl:
+
+```
+cabal repl
+```
+
 Format code:
 
 ```
