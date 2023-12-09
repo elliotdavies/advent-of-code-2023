@@ -4,8 +4,9 @@
 module AOC2023.Lib where
 
 import Data.Bifunctor (Bifunctor (bimap))
+import Data.Maybe (isJust)
 import qualified Data.Vector as V
-import Text.Parsec (ParseError, digit, many, many1)
+import Text.Parsec (ParseError, digit, many, many1, optionMaybe)
 import Text.Parsec.Char (char)
 import Text.Parsec.String (Parser)
 
@@ -24,13 +25,22 @@ digitsToInt = read @Int . concatMap show
 {- Parsers -}
 
 digits :: Parser Int
-digits = read <$> many1 digit
+digits = do
+  c <- optionMaybe $ char '-'
+  ds <- many1 digit
+  pure $ read $ if isJust c then '-' : ds else ds
 
 spaces :: Parser String
 spaces = many $ char ' '
 
 spaceSeparatedDigits :: Parser [Int]
 spaceSeparatedDigits = many $ do
+  ds <- digits
+  spaces
+  pure ds
+
+spaceSeparatedDigits1 :: Parser [Int]
+spaceSeparatedDigits1 = many1 $ do
   ds <- digits
   spaces
   pure ds
