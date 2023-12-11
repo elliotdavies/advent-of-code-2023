@@ -4,7 +4,7 @@ module AOC2023.Day10
   )
 where
 
-import AOC2023.Lib (Coords, Dir (..), Solution, coordsOf, fromParser, opposite, safeHead, travel, (!?!?))
+import AOC2023.Lib (Coords, Dir (..), Solution, findCoords, fromParser, opposite, safeHead, travel, (!?!?))
 import Control.Monad (join)
 import Data.Maybe (fromJust, isJust)
 import qualified Data.Set as S
@@ -83,7 +83,7 @@ part1 = fromParser go . parse grid ""
          in S.size seen `div` 2
       | otherwise = error "Couldn't find start"
       where
-        start = coordsOf (Just S) g
+        start = findCoords (== Just S) g
 
 part2 :: Solution
 part2 = undefined

@@ -27,6 +27,22 @@ spec = describe "Lib" $ do
       vec !?!? (1, 1) `shouldBe` Just 'e'
       vec !?!? (2, 1) `shouldBe` Just 'f'
 
+  describe "transpose" $ do
+    it "works" $ do
+      let vec =
+            V.fromList
+              [ V.fromList ['a', 'b', 'c'],
+                V.fromList ['d', 'e', 'f'],
+                V.fromList ['g', 'h', 'i']
+              ]
+
+      transpose vec
+        `shouldBe` V.fromList
+          [ V.fromList ['a', 'd', 'g'],
+            V.fromList ['b', 'e', 'h'],
+            V.fromList ['c', 'f', 'i']
+          ]
+
   describe "surroundingCoords" $ do
     it "works" $ do
       surroundingCoords (5, 10)
@@ -40,7 +56,7 @@ spec = describe "Lib" $ do
                      (6, 11)
                    ]
 
-  describe "coordsOf" $ do
+  describe "findCoords" $ do
     it "works" $ do
       let vec =
             V.fromList
@@ -49,6 +65,21 @@ spec = describe "Lib" $ do
                 V.fromList ['g', 'h', 'i']
               ]
 
-      coordsOf 'b' vec `shouldBe` Just (1,0)
-      coordsOf 'f' vec `shouldBe` Just (2,1)
-      coordsOf 'g' vec `shouldBe` Just (0,2)
+      findCoords ('b' ==) vec `shouldBe` Just (1, 0)
+      findCoords ('f' ==) vec `shouldBe` Just (2, 1)
+      findCoords ('g' ==) vec `shouldBe` Just (0, 2)
+
+  describe "findAllCoords" $ do
+    it "works" $ do
+      let vec :: V.Vector (V.Vector Int) =
+            V.fromList
+              [ V.fromList [1, 4, 8],
+                V.fromList [6, 2, 7],
+                V.fromList [9, 5, 3]
+              ]
+
+      findAllCoords (>= 7) vec `shouldBe` [(0, 2), (2, 1), (2, 0)]
+
+  describe "manhattanDist" $ do
+    it "works" $ do
+      manhattanDist (2, 3) (9, 7) `shouldBe` 11

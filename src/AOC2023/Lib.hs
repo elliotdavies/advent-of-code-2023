@@ -4,6 +4,7 @@
 module AOC2023.Lib where
 
 import Data.Bifunctor (Bifunctor (bimap))
+import qualified Data.List as L
 import Data.Maybe (isJust)
 import qualified Data.Vector as V
 import Text.Parsec (ParseError, digit, many, many1, optionMaybe)
@@ -60,12 +61,27 @@ type Coords = (Int, Int)
 (!?!?) :: V.Vector (V.Vector a) -> Coords -> Maybe a
 (!?!?) vec (x, y) = vec V.!? y >>= \vec' -> vec' V.!? x
 
--- Find the coordinates of an item in a 2D vector
-coordsOf :: Eq a => a -> V.Vector (V.Vector a) -> Maybe Coords
-coordsOf x = V.ifoldr findInRow Nothing
+dims :: V.Vector (V.Vector a) -> (Int, Int)
+dims g = (V.length (g V.! 0), V.length g)
+
+transpose :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
+transpose = V.fromList . map V.fromList . L.transpose . V.toList . V.map V.toList
+
+-- Find the coordinates of the first matching item in a 2D vector
+findCoords :: Eq a => (a -> Bool) -> V.Vector (V.Vector a) -> Maybe Coords
+findCoords f = V.ifoldr findInRow Nothing
   where
-    findInRow rowIdx row Nothing = (,rowIdx) <$> V.findIndex (x ==) row
+    findInRow rowIdx row Nothing = (,rowIdx) <$> V.findIndex f row
     findInRow _ _ acc = acc
+
+-- Find all coordinates of matching items in a 2D vector
+findAllCoords :: Eq a => (a -> Bool) -> V.Vector (V.Vector a) -> [Coords]
+findAllCoords f = V.ifoldr findInRow []
+  where
+    findInRow rowIdx row acc = acc ++ ((,rowIdx) <$> V.toList (V.findIndices f row))
+
+manhattanDist :: Coords -> Coords -> Int
+manhattanDist (x, y) (x', y') = abs (x - x') + abs (y - y')
 
 -- Generate coordinates for the cells surrounding the current one (but not
 -- including the current one)
