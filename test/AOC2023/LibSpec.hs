@@ -39,3 +39,16 @@ spec = describe "Lib" $ do
                      (5, 11),
                      (6, 11)
                    ]
+
+  describe "coordsOf" $ do
+    it "works" $ do
+      let vec =
+            V.fromList
+              [ V.fromList ['a', 'b', 'c'],
+                V.fromList ['d', 'e', 'f'],
+                V.fromList ['g', 'h', 'i']
+              ]
+
+      coordsOf 'b' vec `shouldBe` Just (1,0)
+      coordsOf 'f' vec `shouldBe` Just (2,1)
+      coordsOf 'g' vec `shouldBe` Just (0,2)

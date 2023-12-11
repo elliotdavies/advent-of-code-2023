@@ -22,6 +22,10 @@ type Solution = String -> Result
 digitsToInt :: [Int] -> Int
 digitsToInt = read @Int . concatMap show
 
+safeHead :: [a] -> Maybe a
+safeHead (x : _) = Just x
+safeHead _ = Nothing
+
 {- Parsers -}
 
 digits :: Parser Int
@@ -56,6 +60,13 @@ type Coords = (Int, Int)
 (!?!?) :: V.Vector (V.Vector a) -> Coords -> Maybe a
 (!?!?) vec (x, y) = vec V.!? y >>= \vec' -> vec' V.!? x
 
+-- Find the coordinates of an item in a 2D vector
+coordsOf :: Eq a => a -> V.Vector (V.Vector a) -> Maybe Coords
+coordsOf x = V.ifoldr findInRow Nothing
+  where
+    findInRow rowIdx row Nothing = (,rowIdx) <$> V.findIndex (x ==) row
+    findInRow _ _ acc = acc
+
 -- Generate coordinates for the cells surrounding the current one (but not
 -- including the current one)
 surroundingCoords :: Coords -> [Coords]
@@ -70,3 +81,20 @@ surroundingCoords (x, y) =
     (x, y + 1),
     (x + 1, y + 1)
   ]
+
+{- Directions -}
+
+data Dir = U | D | L | R
+  deriving (Eq, Show)
+
+opposite :: Dir -> Dir
+opposite U = D
+opposite D = U
+opposite L = R
+opposite R = L
+
+travel :: Dir -> Coords -> Coords
+travel U (x, y) = (x, y -1)
+travel D (x, y) = (x, y + 1)
+travel L (x, y) = (x - 1, y)
+travel R (x, y) = (x + 1, y)
