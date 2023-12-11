@@ -4,7 +4,7 @@ module AOC2023.Day10
   )
 where
 
-import AOC2023.Lib (Coords, Dir (..), Solution, findCoords, fromParser, opposite, safeHead, travel, (!?!?))
+import AOC2023.Lib (Coords, Dir (..), Solution, dims, findCoords, fromParser, opposite, safeHead, travel, (!?!?))
 import Control.Monad (join)
 import Data.Maybe (fromJust, isJust)
 import qualified Data.Set as S
@@ -43,6 +43,9 @@ grid = do
     pure r
   pure $ V.fromList rows
 
+getPipe :: Grid -> Coords -> Maybe Pipe
+getPipe g cs = join $ g !?!? cs
+
 followPipe :: Grid -> (S.Set Coords, Coords) -> (S.Set Coords, Coords)
 followPipe g (seen, cs) =
   case nextCoords of
@@ -67,8 +70,8 @@ followPipe g (seen, cs) =
         (Nothing, _) -> False
         (_, Nothing) -> False
       where
-        currentPipe = join $ g !?!? cs
-        targetPipe = join $ g !?!? travel d cs
+        currentPipe = g `getPipe` cs
+        targetPipe = g `getPipe` travel d cs
 
     seen' :: S.Set Coords
     seen' = S.insert cs seen
@@ -86,4 +89,38 @@ part1 = fromParser go . parse grid ""
         start = findCoords (== Just S) g
 
 part2 :: Solution
-part2 = undefined
+part2 = fromParser go . parse grid ""
+  where
+    go :: Grid -> Int
+    go g
+      | isJust start =
+        let (seen, _) = followPipe g (S.empty, fromJust start)
+         in length $ getEnclosed g seen
+      | otherwise = error "Couldn't find start"
+      where
+        start = findCoords (== Just S) g
+
+getEnclosed :: Grid -> S.Set Coords -> [Coords]
+getEnclosed g pipes = filter enclosed allCoords
+  where
+    (maxX, maxY) = dims g
+
+    allCoords = [(x, y) | x <- [0 .. maxX - 1], y <- [0 .. maxY - 1]]
+
+    -- Ray casting from point to left edge, only counting 'up' pipes to avoid
+    -- parity issues
+    enclosed :: Coords -> Bool
+    enclosed cs@(x, y)
+      | cs `S.member` pipes = False
+      | otherwise =
+        let coordsToLeft = map (,y) [0 .. x - 1]
+         in odd $
+              length $
+                filter
+                  (\pos -> pos `S.member` pipes && isUpPipe (g `getPipe` pos))
+                  coordsToLeft
+
+    isUpPipe :: Maybe Pipe -> Bool
+    isUpPipe (Just S) = True
+    isUpPipe (Just (P [U, _])) = True
+    isUpPipe _ = False

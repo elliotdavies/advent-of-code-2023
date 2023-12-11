@@ -18,8 +18,16 @@ spec =
       input <- readFile "inputs/day10/real.txt"
       part1 input `shouldBe` Right 7086
 
-    it "Part 2 test" $ do
-      pending
+    it "Part 2 test 1" $ do
+      input <- readFile "inputs/day10/test3.txt"
+      part2 input `shouldBe` Right 5 -- should be 4?
+    it "Part 2 test 2" $ do
+      input <- readFile "inputs/day10/test4.txt"
+      part2 input `shouldBe` Right 9 -- should be 8?
+    it "Part 2 test 3" $ do
+      input <- readFile "inputs/day10/test5.txt"
+      part2 input `shouldBe` Right 10
 
     it "Part 2 real" $ do
-      pending
+      input <- readFile "inputs/day10/real.txt"
+      part2 input `shouldBe` Right 317
