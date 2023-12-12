@@ -36,6 +36,7 @@ library
         AOC2023.Day09
         AOC2023.Day10
         AOC2023.Day11
+        AOC2023.Day12
     hs-source-dirs: src
 
 executable aoc2023
@@ -61,6 +62,7 @@ test-suite spec
         AOC2023.Day09Spec
         AOC2023.Day10Spec
         AOC2023.Day11Spec
+        AOC2023.Day12Spec
     hs-source-dirs: test
     main-is: Spec.hs
     build-depends:
