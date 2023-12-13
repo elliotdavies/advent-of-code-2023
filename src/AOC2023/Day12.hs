@@ -65,9 +65,9 @@ arrangements (Row cs' ss) =
         go (c : cs) opts = c : go cs opts
 
     options :: [[Condition]]
-    options = mapM (const [Operational, Damaged]) unknownIdxs
+    options = mapM (const [Operational, Damaged]) [0 .. numUnknown - 1]
 
-    unknownIdxs = map snd $ filter (\(c, _) -> c == Unknown) $ zip cs' [0 :: Int ..]
+    numUnknown = length $ filter (== Unknown) cs'
 
 part1 :: Solution
 part1 = fromParser go . parse (many row) ""
