@@ -12,10 +12,18 @@ module AOC2023.$DAY
   )
   where
 
-import AOC2023.Lib (Solution)
+import AOC2023.Lib (Solution, fromParser)
+import Text.Parsec (parse)
+import Text.Parsec.String (Parser)
+
+input :: Parser ()
+input = do
+  pure ()
 
 part1 :: Solution
-part1 = undefined
+part1 = fromParser go . parse input ""
+  where
+    go = undefined
 
 part2 :: Solution
 part2 = undefined

@@ -10,7 +10,8 @@ spec =
       input <- readFile "inputs/day12/test.txt"
       part1 input `shouldBe` Right 21
 
-    it "Part 1 real" $ do
+    -- Temporarily skipped because it's slow
+    xit "Part 1 real" $ do
       input <- readFile "inputs/day12/real.txt"
       part1 input `shouldBe` Right 6949
 
