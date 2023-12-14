@@ -4,7 +4,7 @@ module AOC2023.Day10
   )
 where
 
-import AOC2023.Lib (Coords, Dir (..), Solution, dims, findCoords, fromParser, opposite, safeHead, travel, (!?!?))
+import AOC2023.Lib (Coords, Dir (..), Solution, allCoords, findCoords, fromParser, opposite, safeHead, travel, (!?!?))
 import Control.Monad (join)
 import Data.Maybe (fromJust, isJust)
 import qualified Data.Set as S
@@ -101,12 +101,8 @@ part2 = fromParser go . parse grid ""
         start = findCoords (== Just S) g
 
 getEnclosed :: Grid -> S.Set Coords -> [Coords]
-getEnclosed g pipes = filter enclosed allCoords
+getEnclosed g pipes = filter enclosed (allCoords g)
   where
-    (maxX, maxY) = dims g
-
-    allCoords = [(x, y) | x <- [0 .. maxX - 1], y <- [0 .. maxY - 1]]
-
     -- Ray casting from point to left edge, only counting 'up' pipes to avoid
     -- parity issues
     enclosed :: Coords -> Bool

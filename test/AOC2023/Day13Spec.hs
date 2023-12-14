@@ -11,34 +11,36 @@ spec =
       part1 input `shouldBe` Right 405
 
     it "Part 1 test 2" $ do
-      let input = "\
-\#.#.#.#..\n\
-\#.#.#.##.\n\
-\#.#.#.##.\n\
-\#.#.#.#..\n\
-\...#.....\n\
-\#..#.##..\n\
-\....#...#\n\
-\####....#\n\
-\#####....\n\
-\.###.#.##\n\
-\####...##\n\
-\.#.#...#.\n\
-\#....#.#."
+      let input =
+            "\
+            \#.#.#.#..\n\
+            \#.#.#.##.\n\
+            \#.#.#.##.\n\
+            \#.#.#.#..\n\
+            \...#.....\n\
+            \#..#.##..\n\
+            \....#...#\n\
+            \####....#\n\
+            \#####....\n\
+            \.###.#.##\n\
+            \####...##\n\
+            \.#.#...#.\n\
+            \#....#.#."
 
       part1 input `shouldBe` Right 200
 
     it "Part 1 test 3" $ do
-      let input = "\
-\.########..##\n\
-\.###..###.#.#\n\
-\###....###.##\n\
-\#...##...##.#\n\
-\.########.#..\n\
-\#...##..#####\n\
-\#.##..##.#...\n\
-\....##....#..\n\
-\....##....#.."
+      let input =
+            "\
+            \.########..##\n\
+            \.###..###.#.#\n\
+            \###....###.##\n\
+            \#...##...##.#\n\
+            \.########.#..\n\
+            \#...##..#####\n\
+            \#.##..##.#...\n\
+            \....##....#..\n\
+            \....##....#.."
 
       part1 input `shouldBe` Right 800
 
@@ -47,7 +49,13 @@ spec =
       part1 input `shouldBe` Right 33047
 
     it "Part 2 test" $ do
-      pending
+      input <- readFile "inputs/day13/test.txt"
+      part2 input `shouldBe` Right 400
+
+    it "part 2 test 2" $ do
+      input <- readFile "inputs/day13/test2.txt"
+      part2 input `shouldBe` Right 8
 
     it "Part 2 real" $ do
-      pending
+      input <- readFile "inputs/day13/real.txt"
+      part2 input `shouldBe` Right 28806

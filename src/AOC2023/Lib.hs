@@ -61,8 +61,20 @@ type Coords = (Int, Int)
 (!?!?) :: V.Vector (V.Vector a) -> Coords -> Maybe a
 (!?!?) vec (x, y) = vec V.!? y >>= \vec' -> vec' V.!? x
 
+updateAt :: (a -> a) -> V.Vector (V.Vector a) -> Coords -> V.Vector (V.Vector a)
+updateAt f g (x, y) =
+  let row = g V.! y
+      item = row V.! x
+      row' = row V.// [(x, f item)]
+   in g V.// [(y, row')]
+
 dims :: V.Vector (V.Vector a) -> (Int, Int)
 dims g = (V.length (g V.! 0), V.length g)
+
+allCoords :: V.Vector (V.Vector a) -> [Coords]
+allCoords g = [(x, y) | x <- [0 .. maxX - 1], y <- [0 .. maxY - 1]]
+  where
+    (maxX, maxY) = dims g
 
 transpose :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
 transpose = V.fromList . map V.fromList . L.transpose . V.toList . V.map V.toList
