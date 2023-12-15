@@ -43,6 +43,8 @@ spec = describe "Lib" $ do
             V.fromList ['c', 'f', 'i']
           ]
 
+      transpose (transpose vec) `shouldBe` vec
+
   describe "surroundingCoords" $ do
     it "works" $ do
       surroundingCoords (5, 10)

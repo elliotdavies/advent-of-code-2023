@@ -13,6 +13,7 @@ import qualified AOC2023.Day10
 import qualified AOC2023.Day11
 import qualified AOC2023.Day12
 import qualified AOC2023.Day13
+import qualified AOC2023.Day14
 import AOC2023.Lib (Solution)
 import Data.Char (toLower)
 import qualified Data.Map.Strict as M
@@ -37,6 +38,7 @@ data Day
   | Day11
   | Day12
   | Day13
+  | Day14
   deriving (Show, Read, Ord, Eq)
 
 dayToFolder :: Day -> String
@@ -70,7 +72,9 @@ mapping =
       ((Day12, Part1), AOC2023.Day12.part1),
       ((Day12, Part2), AOC2023.Day12.part2),
       ((Day13, Part1), AOC2023.Day13.part1),
-      ((Day13, Part2), AOC2023.Day13.part2)
+      ((Day13, Part2), AOC2023.Day13.part2),
+      ((Day14, Part1), AOC2023.Day14.part1),
+      ((Day14, Part2), AOC2023.Day14.part2)
     ]
 
 main :: IO ()

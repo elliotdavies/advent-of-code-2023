@@ -79,6 +79,9 @@ allCoords g = [(x, y) | x <- [0 .. maxX - 1], y <- [0 .. maxY - 1]]
 transpose :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
 transpose = V.fromList . map V.fromList . L.transpose . V.toList . V.map V.toList
 
+rotateClockwise :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
+rotateClockwise = undefined
+
 -- Find the coordinates of the first matching item in a 2D vector
 findCoords :: Eq a => (a -> Bool) -> V.Vector (V.Vector a) -> Maybe Coords
 findCoords f = V.ifoldr findInRow Nothing
