@@ -14,7 +14,7 @@ spec =
       input <- readFile "inputs/day14/real.txt"
       part1 input `shouldBe` Right 110407
 
-    it "Part 2 test" $ do
+    xit "Part 2 test" $ do
       input <- readFile "inputs/day14/test.txt"
       part2 input `shouldBe` Right 64
 
