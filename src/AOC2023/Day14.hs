@@ -1,17 +1,18 @@
-module AOC2023.Day14 where
-
--- ( part1,
---   part2,
--- )
+module AOC2023.Day14
+  ( part1,
+    part2,
+  )
+where
 
 import AOC2023.Lib (Solution, fromParser, rotateClockwise, transpose)
+import qualified Data.Map as M
 import qualified Data.Vector as V
-import Text.Parsec (many1, newline, octDigit, optional, parse)
+import Text.Parsec (many1, newline, optional, parse)
 import Text.Parsec.Char (oneOf)
 import Text.Parsec.String (Parser)
 
 data Rock = Round | Cube | Empty
-  deriving (Eq, Show)
+  deriving (Eq, Show, Ord)
 
 type Platform = V.Vector (V.Vector Rock)
 
@@ -61,26 +62,36 @@ part1 = fromParser (calcLoad . V.map go) . parse platform ""
   where
     go = V.concat . map tiltChunk . chunk []
 
--- 1_000_000_000
 part2 :: Solution
 part2 = fromParser go . parse platform ""
   where
-    go original = go' original 0
+    go original =
+      let (loopStart, loopEnd, stateAfterLoop) = detectLoop M.empty original 0
+          remaining = (1_000_000_000 - loopEnd) `mod` (loopEnd - loopStart)
+       in calcLoad $ runFor (remaining + 1) stateAfterLoop
       where
-        go' p i =
-          let new = cyclePlatform p
-           in if new == original
-                then i + 1
-                else go' new (i + 1)
+        detectLoop :: M.Map Platform (Int, Platform) -> Platform -> Int -> (Int, Int, Platform)
+        detectLoop m p i =
+          case m M.!? p of
+            Just (loopStart, ans) -> (loopStart, i', ans)
+            Nothing ->
+              let p' = cyclePlatform p
+               in detectLoop (M.insert p (i', p') m) p' i'
+          where
+            i' = i + 1
 
-        tilt = V.map (V.concat . map tiltChunk . chunk [])
+        runFor :: Int -> Platform -> Platform
+        runFor n p = iterate cyclePlatform p !! (n - 1)
 
-        cyclePlatform =
-          rotateClockwise
-            . tilt
-            . rotateClockwise
-            . tilt
-            . rotateClockwise
-            . tilt
-            . rotateClockwise
-            . tilt
+cyclePlatform :: Platform -> Platform
+cyclePlatform =
+  rotateClockwise
+    . tilt
+    . rotateClockwise
+    . tilt
+    . rotateClockwise
+    . tilt
+    . rotateClockwise
+    . tilt
+  where
+    tilt = V.map (V.concat . map tiltChunk . chunk [])

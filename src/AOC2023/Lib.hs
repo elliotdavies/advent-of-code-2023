@@ -80,7 +80,7 @@ transpose :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
 transpose = V.fromList . map V.fromList . L.transpose . V.toList . V.map V.toList
 
 rotateClockwise :: V.Vector (V.Vector a) -> V.Vector (V.Vector a)
-rotateClockwise = undefined
+rotateClockwise = transpose . V.map V.reverse
 
 -- Find the coordinates of the first matching item in a 2D vector
 findCoords :: Eq a => (a -> Bool) -> V.Vector (V.Vector a) -> Maybe Coords

@@ -45,6 +45,22 @@ spec = describe "Lib" $ do
 
       transpose (transpose vec) `shouldBe` vec
 
+  describe "rotateClockwise" $ do
+    it "works" $ do
+      let vec =
+            V.fromList
+              [ V.fromList ['a', 'b', 'c'],
+                V.fromList ['d', 'e', 'f'],
+                V.fromList ['g', 'h', 'i']
+              ]
+
+      rotateClockwise vec
+        `shouldBe` V.fromList
+          [ V.fromList ['c', 'f', 'i'],
+            V.fromList ['b', 'e', 'h'],
+            V.fromList ['a', 'd', 'g']
+          ]
+
   describe "surroundingCoords" $ do
     it "works" $ do
       surroundingCoords (5, 10)
