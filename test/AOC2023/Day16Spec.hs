@@ -10,12 +10,15 @@ spec =
       input <- readFile "inputs/day16/test.txt"
       part1 input `shouldBe` Right 46
 
-    xit "Part 1 real" $ do
+    it "Part 1 real" $ do
       input <- readFile "inputs/day16/real.txt"
-      part1 input `shouldBe` Right 0
+      part1 input `shouldBe` Right 7788
 
     it "Part 2 test" $ do
-      pending
+      input <- readFile "inputs/day16/test.txt"
+      part2 input `shouldBe` Right 51
 
-    it "Part 2 real" $ do
-      pending
+    -- Skipped because it's a bit slow
+    xit "Part 2 real" $ do
+      input <- readFile "inputs/day16/real.txt"
+      part2 input `shouldBe` Right 7987

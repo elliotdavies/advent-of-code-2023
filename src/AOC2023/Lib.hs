@@ -116,7 +116,7 @@ surroundingCoords (x, y) =
 {- Directions -}
 
 data Dir = U | D | L | R
-  deriving (Eq, Show, Ord)
+  deriving (Eq, Show, Ord, Enum)
 
 opposite :: Dir -> Dir
 opposite U = D
