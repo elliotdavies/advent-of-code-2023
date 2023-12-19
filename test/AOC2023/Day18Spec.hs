@@ -15,7 +15,9 @@ spec =
       part1 input `shouldBe` Right 48795
 
     it "Part 2 test" $ do
-      pending
+      input <- readFile "inputs/day18/test.txt"
+      part2 input `shouldBe` Right 952408144115
 
     it "Part 2 real" $ do
-      pending
+      input <- readFile "inputs/day18/real.txt"
+      part2 input `shouldBe` Right 40654918441248

@@ -80,19 +80,18 @@ shoelace :: [Coords] -> Int
 shoelace vertices =
   let xsByYs = zipWith (*) xs (tail ys ++ [head ys])
       ysByXs = zipWith (*) ys (tail xs ++ [head xs])
-  in abs (sum ysByXs - sum xsByYs) `div` 2
+   in abs (sum ysByXs - sum xsByYs) `div` 2
   where
     xs = map fst vertices
     ys = map snd vertices
 
 -- Pick's algorithm
 -- TODO Rewrite Day10 to use this
-polygonSize :: [Coords] -> Int
-polygonSize vertices = interiorSize + boundaryLength
-    where
-      interiorSize = area - (boundaryLength `div` 2) + 1
-      boundaryLength = length vertices
-      area = shoelace vertices
+polygonSize :: [Coords] -> Int -> Int
+polygonSize vertices boundaryLength = interiorSize + boundaryLength
+  where
+    interiorSize = area - (boundaryLength `div` 2) + 1
+    area = shoelace vertices
 
 {- Vectors -}
 
@@ -146,7 +145,7 @@ opposite L = R
 opposite R = L
 
 travelN :: Int -> Dir -> Coords -> Coords
-travelN n U (x, y) = (x, y -n)
+travelN n U (x, y) = (x, y - n)
 travelN n D (x, y) = (x, y + n)
 travelN n L (x, y) = (x - n, y)
 travelN n R (x, y) = (x + n, y)
