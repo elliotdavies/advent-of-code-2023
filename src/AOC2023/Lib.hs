@@ -53,9 +53,48 @@ spaceSeparatedDigits1 = many1 $ do
 fromParser :: forall a. (a -> Int) -> Either ParseError a -> Result
 fromParser = bimap show
 
-{- Coords and vectors -}
+{- Coords -}
 
 type Coords = (Int, Int)
+
+manhattanDist :: Coords -> Coords -> Int
+manhattanDist (x, y) (x', y') = abs (x - x') + abs (y - y')
+
+-- Generate coordinates for the cells surrounding the current one (but not
+-- including the current one)
+surroundingCoords :: Coords -> [Coords]
+surroundingCoords (x, y) =
+  [ (x - 1, y - 1),
+    (x, y -1),
+    (x + 1, y -1),
+    (x - 1, y),
+    -- (x, y),
+    (x + 1, y),
+    (x - 1, y + 1),
+    (x, y + 1),
+    (x + 1, y + 1)
+  ]
+
+-- Shoelace formula for area of polygon
+shoelace :: [Coords] -> Int
+shoelace vertices =
+  let xsByYs = zipWith (*) xs (tail ys ++ [head ys])
+      ysByXs = zipWith (*) ys (tail xs ++ [head xs])
+  in abs (sum ysByXs - sum xsByYs) `div` 2
+  where
+    xs = map fst vertices
+    ys = map snd vertices
+
+-- Pick's algorithm
+-- TODO Rewrite Day10 to use this
+polygonSize :: [Coords] -> Int
+polygonSize vertices = interiorSize + boundaryLength
+    where
+      interiorSize = area - (boundaryLength `div` 2) + 1
+      boundaryLength = length vertices
+      area = shoelace vertices
+
+{- Vectors -}
 
 -- Index safely into a 2D vector
 (!?!?) :: V.Vector (V.Vector a) -> Coords -> Maybe a
@@ -95,28 +134,10 @@ findAllCoords f = V.ifoldr findInRow []
   where
     findInRow rowIdx row acc = acc ++ ((,rowIdx) <$> V.toList (V.findIndices f row))
 
-manhattanDist :: Coords -> Coords -> Int
-manhattanDist (x, y) (x', y') = abs (x - x') + abs (y - y')
-
--- Generate coordinates for the cells surrounding the current one (but not
--- including the current one)
-surroundingCoords :: Coords -> [Coords]
-surroundingCoords (x, y) =
-  [ (x - 1, y - 1),
-    (x, y -1),
-    (x + 1, y -1),
-    (x - 1, y),
-    -- (x, y),
-    (x + 1, y),
-    (x - 1, y + 1),
-    (x, y + 1),
-    (x + 1, y + 1)
-  ]
-
 {- Directions -}
 
 data Dir = U | D | L | R
-  deriving (Eq, Show, Ord, Enum)
+  deriving (Eq, Show, Read, Ord, Enum)
 
 opposite :: Dir -> Dir
 opposite U = D
@@ -124,8 +145,11 @@ opposite D = U
 opposite L = R
 opposite R = L
 
+travelN :: Int -> Dir -> Coords -> Coords
+travelN n U (x, y) = (x, y -n)
+travelN n D (x, y) = (x, y + n)
+travelN n L (x, y) = (x - n, y)
+travelN n R (x, y) = (x + n, y)
+
 travel :: Dir -> Coords -> Coords
-travel U (x, y) = (x, y -1)
-travel D (x, y) = (x, y + 1)
-travel L (x, y) = (x - 1, y)
-travel R (x, y) = (x + 1, y)
+travel = travelN 1
