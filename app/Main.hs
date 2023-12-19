@@ -45,6 +45,7 @@ data Day
   | Day15
   | Day16
   | Day18
+  | Day19
   deriving (Show, Read, Ord, Eq)
 
 dayToFolder :: Day -> String
@@ -86,7 +87,9 @@ mapping =
       ((Day16, Part1), AOC2023.Day16.part1),
       ((Day16, Part2), AOC2023.Day16.part2),
       ((Day18, Part1), AOC2023.Day18.part1),
-      ((Day18, Part2), AOC2023.Day18.part2)
+      ((Day18, Part2), AOC2023.Day18.part2),
+      ((Day19, Part1), AOC2023.Day19.part1),
+      ((Day19, Part2), AOC2023.Day19.part2)
     ]
 
 main :: IO ()
