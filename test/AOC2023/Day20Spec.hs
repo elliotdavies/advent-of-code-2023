@@ -20,4 +20,4 @@ spec =
 
     it "Part 2 real" $ do
       input <- readFile "inputs/day20/real.txt"
-      part2 input `shouldBe` Right 0
+      part2 input `shouldBe` Right 220366255099387

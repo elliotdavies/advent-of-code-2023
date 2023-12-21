@@ -52,11 +52,11 @@ buildState defs = fillConjs $ M.fromList defs
   where
     fillConjs :: ModuleState -> ModuleState
     fillConjs =
-       M.mapWithKey
-            ( \mId (ty, os) -> case ty of
-                Conj _ -> (Conj (initialise mId), os)
-                t -> (t, os)
-            )
+      M.mapWithKey
+        ( \mId (ty, os) -> case ty of
+            Conj _ -> (Conj (initialise mId), os)
+            t -> (t, os)
+        )
 
     initialise :: Id -> M.Map Id Pulse
     initialise mId = M.fromList $ map (,L) $ S.toList $ revMap M.! mId
@@ -65,7 +65,6 @@ buildState defs = fillConjs $ M.fromList defs
 
     buildRevMap (inId, (_, outIds)) rm =
       foldr (\oId acc -> M.insertWith S.union oId (S.singleton inId) acc) rm outIds
-
 
 -- updated state plus record of all (from, pulse, to) sent
 type Result = (ModuleState, [(Id, Pulse, Id)])
@@ -76,7 +75,7 @@ pulse (fromId, pIn, toId) ms
   | otherwise = (M.insert toId (mType', os) ms, psOut)
   where
     psOut = case pOut of
-      Just p' -> map (toId, p',) os
+      Just p' -> map (toId,p',) os
       Nothing -> []
 
     (mType', pOut) =
@@ -115,17 +114,37 @@ part1 = fromParser go . parse (many1 parseModule) ""
     go :: [(Id, (ModuleType, [Id]))] -> Int
     go ms =
       let (_, ps) = pushButtonN 1000 (buildState ms)
-          ls = length $ filter ((== L) . \(_,p,_) -> p) ps
-          hs = length $ filter ((== H) . \(_,p,_) -> p) ps
+          ls = length $ filter ((== L) . \(_, p, _) -> p) ps
+          hs = length $ filter ((== H) . \(_, p, _) -> p) ps
        in ls * hs
 
 part2 :: Solution
 part2 = fromParser go . parse (many1 parseModule) ""
   where
-    go ms = loopUntilRx (buildState ms) 0
+    go ms =
+      loopUntilInputsHigh
+        (buildState ms)
+        0
+        -- When all of these are high, "vr" will send a low pulse to "rx"
+        -- (based on manual inspection of the input)
+        [("bm", 0), ("cl", 0), ("tn", 0), ("dr", 0)]
 
-    loopUntilRx ms n =
-      let (ms', ps) = pushButton ms
-       in if matches ps then n+1 else loopUntilRx ms' (n+1)
+    loopUntilInputsHigh :: ModuleState -> Int -> [(Id, Int)] -> Int
+    loopUntilInputsHigh ms btnPresses acc =
+      if all (> 0) counts
+        then foldr1 lcm counts
+        else loopUntilInputsHigh ms' (btnPresses + 1) acc'
+      where
+        acc' =
+          map
+            ( \(mId, count) ->
+                (mId, if count == 0 && seenHigh mId then btnPresses + 1 else count)
+            )
+            acc
 
-    matches = any (\(_,p,to) -> p == L && to == "rx")
+        seenHigh fromId =
+          any (\(from, p, to) -> from == fromId && p == H && to == "vr") ps
+
+        (ms', ps) = pushButton ms
+
+        counts = map snd acc
